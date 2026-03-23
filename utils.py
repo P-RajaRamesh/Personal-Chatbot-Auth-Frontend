@@ -1,7 +1,13 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+use_url=os.getenv("hf_url")
 
 def login(username,password):
-    url = 'http://127.0.0.1:8000/login'
+    url = f'{use_url}/login'
     payload= {"username": username, "password": password}
     response = requests.post(url=url,data=payload)
     if response.status_code == 200:
@@ -10,7 +16,7 @@ def login(username,password):
         return None
     
 def get_user_details(token: str):
-    url = 'http://127.0.0.1:8000/users/user'
+    url = f'{use_url}/users/user'
     header= {
         "Authorization": f"Bearer {token}",
         "Accept": "application/json"
@@ -22,7 +28,7 @@ def get_user_details(token: str):
         return None
     
 def register(username: str, email: str, password: str):
-    url = 'http://127.0.0.1:8000/register'
+    url = f'{use_url}/register'
     header= {
         "Accept": "application/json"
     }
@@ -34,7 +40,7 @@ def register(username: str, email: str, password: str):
         return None
     
 def load_conversation(token: str, thread_id: str):
-    url_1= 'http://127.0.0.1:8000/users/messages'
+    url_1= f'{use_url}/users/messages'
     header= {
         "Authorization": f"Bearer {token}",
         "Accept": "application/json"
@@ -50,7 +56,7 @@ def load_conversation(token: str, thread_id: str):
     return messages
 
 def retrieve_all_threads(token: str):
-    url= 'http://127.0.0.1:8000/users/threads'
+    url= f'{use_url}/users/threads'
     header= {
         "Authorization": f"Bearer {token}",
         "Accept": "application/json"
@@ -62,7 +68,7 @@ def retrieve_all_threads(token: str):
         return []
     
 def chatbot_invoke(token: str, message: str, thread_id: str):
-    url= 'http://127.0.0.1:8000/users/invoke'
+    url= f'{use_url}/users/invoke'
     header= {
         "Authorization": f"Bearer {token}",
         "Accept": "application/json"
